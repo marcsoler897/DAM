@@ -28,6 +28,31 @@ static class ProfileADO
         dbConn.Close();
     }
 
+    public static List<Profile> GetAll(SpotifyDBConnection dbConn)
+    {
+        List<Profile> profiles = new();
+
+        dbConn.Open();
+        string sql = "SELECT Id, Name, Description, State FROM Profiles";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        using SqlDataReader reader = cmd.ExecuteReader();
+
+        while (reader.Read())
+        {
+            profiles.Add(new Profile
+            {
+                Id = reader.GetGuid(0),
+                Name = reader.GetString(1),
+                Description = reader.GetString(2),
+                State = reader.GetString(3)
+            });
+        }
+
+        dbConn.Close();
+        return profiles;
+    }
+
 
 
 }

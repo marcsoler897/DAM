@@ -23,7 +23,17 @@ public static class ProfileEndpoints
             ProfileADO.Insert(dbConn, profile);
             return Results.Created($"/profiles/{profile.Id}", profile);
         });
+
+        app.MapGet("/profiles", () =>
+        {
+            List<Profile> profiles = ProfileADO.GetAll(dbConn);
+            return Results.Ok(profiles);
+        });
+
     }
+
+
+    
 }
 
 public record ProfileRequest(string Name, string Description, string State);
