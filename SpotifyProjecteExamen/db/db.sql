@@ -1,0 +1,97 @@
+CREATE DATABASE SpotifyDB;
+Use SpotifyDB;
+
+SELECT PlaylistSongs.Id AS psid, Songs.Title, Playlists.Name FROM Songs  
+	INNER JOIN PlaylistSongs on Songs.Id =  PlaylistSongs.SongId
+	INNER JOIN Playlists  on Playlists.Id = PlaylistSongs.PlaylistId
+
+
+
+
+	Songs.Id, Playlists.Id
+	 WHERE s.Id = ps.SongId AND p.Id = ps.PlaylistId
+	
+	
+CREATE TABLE Roles (
+	Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+	Name NVARCHAR(50) NOT NULL,
+	Description NVARCHAR(255)
+);
+
+CREATE TABLE Permissions (
+	Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+	Name NVARCHAR(50) NOT NULL,
+	Description NVARCHAR(255)
+);
+
+CREATE TABLE Users (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    Username NVARCHAR(50) NOT NULL,
+    Email NVARCHAR(255) NOT NULL UNIQUE,
+    Password NVARCHAR(255) NOT NULL,
+    Salt NVARCHAR(1) NOT NULL
+);
+
+CREATE TABLE UserRoles (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    UserId UNIQUEIDENTIFIER NOT NULL,
+    RoleId UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT FK_UserRoles_Users FOREIGN KEY (UserId)
+        REFERENCES Users(Id),
+    CONSTRAINT FK_UserRoles_Roles FOREIGN KEY (RoleId)
+        REFERENCES Roles(Id),
+    CONSTRAINT UQ_UserRoles UNIQUE (UserId, RoleId)
+);
+
+CREATE TABLE RolePermissions (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    RoleId UNIQUEIDENTIFIER NOT NULL,
+    PermissionId UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT FK_RolePermissions_Roles FOREIGN KEY (RoleId)
+        REFERENCES Roles(Id),
+    CONSTRAINT FK_RolePermissions_Permissions FOREIGN KEY (PermissionId)
+        REFERENCES Permissions(Id),
+    CONSTRAINT UQ_RolePermissions UNIQUE (RoleId, PermissionId)
+);
+
+
+CREATE TABLE Songs (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    Title NVARCHAR(100) NOT NULL,
+    Artist NVARCHAR(100) NOT NULL,
+    Album NVARCHAR(100),
+    Duration INT,
+    Genre NVARCHAR(50),
+    ImageUrl NVARCHAR(255)
+);
+
+CREATE TABLE Playlists (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    UserId UNIQUEIDENTIFIER NOT NULL,
+    Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(255),
+    CONSTRAINT FKPlaylistsUsers FOREIGN KEY (UserId)
+        REFERENCES Users(Id)
+);
+
+CREATE TABLE SongFiles (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    SongId UNIQUEIDENTIFIER NOT NULL,
+    Url NVARCHAR(255) NOT NULL,
+    CONSTRAINT FKSongsFiles FOREIGN KEY (SongId)
+        REFERENCES Songs(Id)
+);
+
+CREATE TABLE PlaylistSongs (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    PlaylistId UNIQUEIDENTIFIER NOT NULL,
+    SongId UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT FKPlaylistSongsPlaylists FOREIGN KEY (PlaylistId)
+        REFERENCES Playlists(Id),
+    CONSTRAINT FKPlaylistSongsSongs FOREIGN KEY (SongId)
+        REFERENCES Songs(Id)
+);
+
+
+
+
