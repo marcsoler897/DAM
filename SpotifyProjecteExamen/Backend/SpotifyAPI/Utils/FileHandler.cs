@@ -56,9 +56,9 @@ public static class FileHandler
     {
         TagLib.File tagFile = TagLib.File.Create(filePath);
 
-        string imageName = tagFile.Tag.Name ?? "Unnamed name";
+        string imageName = tagFile.Tag.Title ?? "Unnamed song";
         // string songArtists = tagFile.Tag.Performers.Length > 0 ? string.Join(", ", tagFile.Tag.Performers) : "Unknown Artist";
-        string imageDescription = tagFile.Tag.Description ?? "Unknown description";
+        string imageDescription = tagFile.Tag.Album ?? "Unknown album";
         // string songDuration = tagFile.Properties.Duration.ToString();
         // string songGenres = tagFile.Tag.Genres.Length > 0 ? string.Join(", ", tagFile.Tag.Genres) : "Unknown Genre";
 
