@@ -32,15 +32,24 @@ public static class ImageEndpoints
             return Results.Ok(images);
         });
 
+        app.MapGet("/images/{id}", (Guid id) =>
+        {
+            Image? image = ImageADO.GetById(dbConn, id);
+
+            return image is not null
+                ? Results.Ok(image)
+                : Results.NotFound(new { message = $"Image with Id {id} not found." });
+        });
+
 
         app.MapPut("/images/{id}", (Guid id, ImageRequest req) =>
         {
-            // Image? existing = ImageADO.GetById(dbConn, id);
+            Image? existing = ImageADO.GetById(dbConn, id);
 
-            // if (existing == null)
-            // {
-            //     return Results.NotFound();
-            // }
+            if (existing == null)
+            {
+                return Results.NotFound();
+            }
 
             Image updated = new Image
             {

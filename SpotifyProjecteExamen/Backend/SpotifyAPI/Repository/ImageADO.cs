@@ -57,6 +57,33 @@ static class ImageADO
         return images;
     }
 
+    public static Image? GetById(SpotifyDBConnection dbConn, Guid id)
+    {
+        dbConn.Open();
+        string sql = "SELECT Id, Url, Name, Description, Type FROM Images WHERE Id = @Id";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@Id", id);
+
+        using SqlDataReader reader = cmd.ExecuteReader();
+        Image? image = null;
+
+        if (reader.Read())
+        {
+            image = new Image
+            {
+                Id = reader.GetGuid(0),
+                Url = reader.GetString(1),
+                Name = reader.GetString(2),
+                Description = reader.GetString(3),
+                Type = reader.GetString(4)
+            };
+        }
+
+        dbConn.Close();
+        return image;
+    }
+
     public static void Update(SpotifyDBConnection dbConn, Image image)
     {
         dbConn.Open();
@@ -81,6 +108,22 @@ static class ImageADO
         Console.WriteLine($"{rows} fila actualitzada.");
 
         dbConn.Close();
+    }
+
+    public static bool Delete(SpotifyDBConnection dbConn, Guid id)
+    {
+        dbConn.Open();
+
+        string sql = @"DELETE FROM Images WHERE Id = @Id";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@Id", id);
+
+        int rows = cmd.ExecuteNonQuery();
+
+        dbConn.Close();
+
+        return rows > 0;
     }
 
 }
