@@ -53,6 +53,33 @@ static class ProfileADO
         return profiles;
     }
 
+    public static Profile? GetById(SpotifyDBConnection dbConn, Guid id)
+    {
+        dbConn.Open();
+        string sql = "SELECT Id, Name, Description, State FROM Profiles WHERE Id = @Id";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@Id", id);
+
+        using SqlDataReader reader = cmd.ExecuteReader();
+        Profile? profile = null;
+
+        if (reader.Read())
+        {
+            profile = new Profile
+            {
+                Id = reader.GetGuid(0),
+                Name = reader.GetString(1),
+                Description = reader.GetString(2),
+                State = reader.GetString(3)
+            };
+        }
+
+        dbConn.Close();
+        return profile;
+    }
+
+
 
 
 }

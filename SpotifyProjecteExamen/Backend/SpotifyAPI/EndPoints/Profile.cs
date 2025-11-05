@@ -30,7 +30,16 @@ public static class ProfileEndpoints
             return Results.Ok(profiles);
         });
 
-    } 
+        app.MapGet("/profiles/{id}", (Guid id) =>
+        {
+            Profile? profile = ProfileADO.GetById(dbConn, id);
+
+            return profile is not null
+                ? Results.Ok(profile)
+                : Results.NotFound(new { message = $"Profile with Id {id} not found." });
+        });
+
+    }
 
 
     
