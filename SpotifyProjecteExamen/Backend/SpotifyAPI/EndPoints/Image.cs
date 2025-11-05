@@ -65,6 +65,7 @@ public static class ImageEndpoints
             return Results.Ok(updated);
         });
 
+        app.MapDelete("/images/{id}", (Guid id) => ImageADO.Delete(dbConn, id) ? Results.NoContent() : Results.NotFound());
 
     }
 }

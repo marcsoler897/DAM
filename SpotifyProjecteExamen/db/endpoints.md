@@ -1,3 +1,5 @@
+# Profiles
+
 POST http://localhost:5000/profiles
 
 {
@@ -8,7 +10,7 @@ POST http://localhost:5000/profiles
 
 GET http://localhost:5000/profiles
 
-GET http://localhost:5000/profiles/id
+GET"byid" http://localhost:5000/profiles/id
 
 PUT http://localhost:5000/profiles/id
 
@@ -19,3 +21,29 @@ PUT http://localhost:5000/profiles/id
 }
 
 DELETE http://localhost:5000/profiles/id
+
+# Images
+
+POST http://localhost:5000/images
+
+{
+  "url": "https://github.com/marcsoler897/DAM",
+      "name": "pinturaclasse",
+   "description": "descripcióimatge",
+    "type": "png"
+}
+
+GET http://localhost:5000/images
+
+GET"byid" http://localhost:5000/images/id
+
+PUT http://localhost:5000/images/id
+
+{
+  "url": "https://github.com/marcsoler897/DAM",
+      "name": "pinturaclasseeditada",
+   "description": "descripcióimatgeeditada",
+    "type": "pngeditat"
+}
+
+DELETE http://localhost:5000/images/id
