@@ -1,16 +1,5 @@
 CREATE DATABASE SpotifyDB;
 Use SpotifyDB;
-
-SELECT PlaylistSongs.Id AS psid, Songs.Title, Playlists.Name FROM Songs  
-	INNER JOIN PlaylistSongs on Songs.Id =  PlaylistSongs.SongId
-	INNER JOIN Playlists  on Playlists.Id = PlaylistSongs.PlaylistId
-
-
-
-
-	Songs.Id, Playlists.Id
-	 WHERE s.Id = ps.SongId AND p.Id = ps.PlaylistId
-	
 	
 CREATE TABLE Roles (
 	Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
@@ -24,12 +13,37 @@ CREATE TABLE Permissions (
 	Description NVARCHAR(255)
 );
 
+CREATE TABLE Profiles (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL,
+    Description NVARCHAR(255),
+    State NVARCHAR(10) NOT NULL
+)
+
+CREATE TABLE Images (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    Url NVARCHAR(255) NOT NULL
+)
+
+CREATE TABLE ProfileImage (
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    ProfileId UNIQUEIDENTIFIER NOT NULL,
+    ImageId UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT FKProfileImageProfiles FOREIGN KEY (ProfileId)
+        REFERENCES Profiles(Id),
+    CONSTRAINT FKProfileImageImages FOREIGN KEY (ImageId)
+        REFERENCES Images(Id)
+)
+
 CREATE TABLE Users (
     Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
     Username NVARCHAR(50) NOT NULL,
     Email NVARCHAR(255) NOT NULL UNIQUE,
     Password NVARCHAR(255) NOT NULL,
-    Salt NVARCHAR(1) NOT NULL
+    Salt NVARCHAR(1) NOT NULL,
+    ProfileId UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT FK_Users_Profiles FOREIGN KEY (ProfileId)
+        REFERENCES Profiles(Id)
 );
 
 CREATE TABLE UserRoles (
