@@ -1,6 +1,6 @@
 namespace SpotifyAPI.Model;
 
-public class PlaylistSong
+public class ProfileImage
 {
     public Guid Id { get; set; }
     public Guid ProfileId { get; set; }
