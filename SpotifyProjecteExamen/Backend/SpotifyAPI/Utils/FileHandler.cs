@@ -21,7 +21,7 @@ public static class FileHandler
         Console.WriteLine($"PROCESSING FILE {file.Name}");
         string filePath = await SaveFile(id, file);
 
-        Image image = new Image
+        SongFile songFile = new SongFile
         {
             Id = Guid.NewGuid(),
             SongId = id,
