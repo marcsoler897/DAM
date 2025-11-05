@@ -26,6 +26,12 @@ public static class ImageEndpoints
             return Results.Created($"/images/{image.Id}", image);
         });
 
+        app.MapGet("/images", () =>
+        {
+            List<Image> images = ImageADO.GetAll(dbConn);
+            return Results.Ok(images);
+        });
+
 
         app.MapPut("/images/{id}", (Guid id, ImageRequest req) =>
         {
