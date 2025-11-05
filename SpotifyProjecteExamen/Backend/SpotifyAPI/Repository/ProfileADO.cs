@@ -79,6 +79,31 @@ static class ProfileADO
         return profile;
     }
 
+    public static void Update(SpotifyDBConnection dbConn, Profile profile)
+    {
+
+        dbConn.Open();
+
+        string sql = @"UPDATE Profiles
+                    SET Name = @Name,
+                        Description = @Description,
+                        State = @State
+                    WHERE Id = @Id";
+
+        using SqlCommand cmd = new SqlCommand(sql, dbConn.sqlConnection);
+        cmd.Parameters.AddWithValue("@Id", profile.Id);
+        cmd.Parameters.AddWithValue("@Name", profile.Name);
+        cmd.Parameters.AddWithValue("@Description", profile.Description);
+        cmd.Parameters.AddWithValue("@State", profile.State);
+
+        int rows = cmd.ExecuteNonQuery();
+
+        Console.WriteLine($"{rows} fila actualitzada.");
+
+        dbConn.Close();
+    }
+
+
 
 
 

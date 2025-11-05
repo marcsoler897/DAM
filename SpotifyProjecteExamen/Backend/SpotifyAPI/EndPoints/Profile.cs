@@ -39,6 +39,28 @@ public static class ProfileEndpoints
                 : Results.NotFound(new { message = $"Profile with Id {id} not found." });
         });
 
+        app.MapPut("/profiles/{id}", (Guid id, ProfileRequest req) =>
+        {
+            Profile? existing = ProfileADO.GetById(dbConn, id);
+
+            if (existing == null)
+            {
+                return Results.NotFound();
+            }
+
+            Profile updated = new Profile
+            {
+                Id = id,
+                Name = req.Name,
+                Description = req.Description,
+                State = req.State
+            };
+
+            ProfileADO.Update(dbConn, updated);
+
+            return Results.Ok(updated);
+        });
+
     }
 
 
