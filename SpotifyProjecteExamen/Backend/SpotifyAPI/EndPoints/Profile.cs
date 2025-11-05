@@ -61,6 +61,8 @@ public static class ProfileEndpoints
             return Results.Ok(updated);
         });
 
+        app.MapDelete("/profiles/{id}", (Guid id) => ProfileADO.Delete(dbConn, id) ? Results.NoContent() : Results.NotFound());
+
     }
 
 
