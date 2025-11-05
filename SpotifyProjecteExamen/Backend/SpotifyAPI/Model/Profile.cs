@@ -1,6 +1,6 @@
 namespace SpotifyAPI.Model;
 
-public class User
+public class Profile
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = "";
