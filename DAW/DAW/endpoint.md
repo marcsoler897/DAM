@@ -1,0 +1,7 @@
+POST http://localhost:5000/objectesPartida/1520AD76-E1FA-408A-837D-0600DB0A38A3/jugadorPartida/1520AD76-E1FA-408A-837D-0600DB0A38A6
+
+{
+    "idObjecte" : "1520AD76-E1FA-408A-837D-0600DB0A38A3",
+    "idJugadorPartida" : "1520AD76-E1FA-408A-837D-0600DB0A38A6",
+    "quant" : 5
+}
